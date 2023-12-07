@@ -7,34 +7,43 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/inquirer-{{ version }}.tar.gz
-  sha256: 958dbd5978f173630756a6ed6243acf931e750416eb7a6ed3a0ff13af0fdfcb5
+  - url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/inquirer-{{ version }}.tar.gz
+    sha256: 958dbd5978f173630756a6ed6243acf931e750416eb7a6ed3a0ff13af0fdfcb5
+
+  # Just for the tests
+  - url: https://github.com/magmax/python-{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+    sha256: 04bfaa793f53d3d3e47b397f8faad9d5ec9249d13d94345627223d2bf0a83273
+    folder: inquirer-git
 
 build:
   number: 0
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  skip: true  # [py<38]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
   host:
     - pip
-    - python >=3.7
-    - poetry
+    - python
+    - poetry-core
   run:
+    - python
     - blessed >=1.19.0
-    - python >=3.7
+    - readchar >=3.0.6
     - python-editor >=1.0.4
-    - readchar >=2.0.1
-    - poetry
 
 test:
+  source_files:
+    - inquirer-git/tests
   imports:
     - inquirer
     - inquirer.render
   commands:
     - pip check
+    - pytest -v inquirer-git/tests
   requires:
     - pip
+    - pytest
+    - pexpect
 
 about:
   home: https://github.com/magmax/python-inquirer
@@ -42,6 +51,9 @@ about:
   license_family: MIT
   license_file: LICENSE
   summary: Collection of common interactive command line user interfaces, based on Inquirer.js
+  description: Collection of common interactive command line user interfaces, based on Inquirer.js.
+  doc_url: https://python-inquirer.readthedocs.io/
+  dev_url: https://github.com/magmax/python-inquirer
 
 extra:
   recipe-maintainers:
