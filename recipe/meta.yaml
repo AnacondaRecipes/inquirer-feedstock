@@ -7,13 +7,8 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/inquirer-{{ version }}.tar.gz
-    sha256: 958dbd5978f173630756a6ed6243acf931e750416eb7a6ed3a0ff13af0fdfcb5
-
-  # Just for the tests
-  - url: https://github.com/magmax/python-{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 04bfaa793f53d3d3e47b397f8faad9d5ec9249d13d94345627223d2bf0a83273
-    folder: inquirer-git
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/inquirer-{{ version }}.tar.gz
+  sha256: 958dbd5978f173630756a6ed6243acf931e750416eb7a6ed3a0ff13af0fdfcb5
 
 build:
   number: 0
@@ -32,18 +27,13 @@ requirements:
     - python-editor >=1.0.4
 
 test:
-  source_files:
-    - inquirer-git/tests
   imports:
     - inquirer
     - inquirer.render
   commands:
     - pip check
-    - pytest -v inquirer-git/tests
   requires:
     - pip
-    - pytest
-    - pexpect
 
 about:
   home: https://github.com/magmax/python-inquirer
