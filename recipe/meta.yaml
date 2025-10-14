@@ -1,18 +1,17 @@
 {% set name = "inquirer" %}
-{% set version = "3.1.4" %}
-
+{% set version = "3.4.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/inquirer-{{ version }}.tar.gz
-  sha256: 958dbd5978f173630756a6ed6243acf931e750416eb7a6ed3a0ff13af0fdfcb5
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/inquirer-{{ version }}.tar.gz
+  sha256: 60d169fddffe297e2f8ad54ab33698249ccfc3fc377dafb1e5cf01a0efb9cbe5
 
 build:
   number: 0
-  skip: true  # [py<38]
+  skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
@@ -23,8 +22,9 @@ requirements:
   run:
     - python
     - blessed >=1.19.0
-    - readchar >=3.0.6
+    - readchar >=4.2.0
     - python-editor >=1.0.4
+    - editor >=1.6.0
 
 test:
   imports:
