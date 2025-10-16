@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/magmax/python-{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 60d169fddffe297e2f8ad54ab33698249ccfc3fc377dafb1e5cf01a0efb9cbe5
+  sha256: 7b78f9e65e6de21274409ad8766c2520eee8a224a2e87bdbdad538e21763f26e
 
 build:
   number: 0
