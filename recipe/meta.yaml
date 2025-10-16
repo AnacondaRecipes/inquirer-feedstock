@@ -39,6 +39,7 @@ test:
   requires:
     - pip
     - pytest
+    - pexpect
 
 about:
   home: https://github.com/magmax/python-inquirer
