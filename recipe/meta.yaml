@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/inquirer-{{ version }}.tar.gz
+  url: https://github.com/magmax/python-{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
   sha256: 60d169fddffe297e2f8ad54ab33698249ccfc3fc377dafb1e5cf01a0efb9cbe5
 
 build:
@@ -18,7 +18,7 @@ requirements:
   host:
     - pip
     - python
-    - poetry-core
+    - poetry-core >=1.0.0
   run:
     - python
     - blessed >=1.19.0
@@ -27,13 +27,18 @@ requirements:
     - editor >=1.6.0
 
 test:
+  source_files:
+    - tests
   imports:
     - inquirer
     - inquirer.render
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v tests
   requires:
     - pip
+    - pytest
 
 about:
   home: https://github.com/magmax/python-inquirer
@@ -42,7 +47,7 @@ about:
   license_file: LICENSE
   summary: Collection of common interactive command line user interfaces, based on Inquirer.js
   description: Collection of common interactive command line user interfaces, based on Inquirer.js.
-  doc_url: https://python-inquirer.readthedocs.io/
+  doc_url: https://python-inquirer.readthedocs.io
   dev_url: https://github.com/magmax/python-inquirer
 
 extra:
