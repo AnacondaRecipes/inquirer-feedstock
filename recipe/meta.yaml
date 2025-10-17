@@ -1,39 +1,46 @@
 {% set name = "inquirer" %}
-{% set version = "3.1.4" %}
-
+{% set version = "3.4.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/inquirer-{{ version }}.tar.gz
-  sha256: 958dbd5978f173630756a6ed6243acf931e750416eb7a6ed3a0ff13af0fdfcb5
+  url: https://github.com/magmax/python-{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 7b78f9e65e6de21274409ad8766c2520eee8a224a2e87bdbdad538e21763f26e
 
 build:
   number: 0
-  skip: true  # [py<38]
+  skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
   host:
     - pip
     - python
-    - poetry-core
+    - poetry-core >=1.0.0
   run:
     - python
     - blessed >=1.19.0
-    - readchar >=3.0.6
+    - readchar >=4.2.0
     - python-editor >=1.0.4
+    - editor >=1.6.0
 
 test:
+  source_files:
+    - tests
+    - examples
   imports:
     - inquirer
     - inquirer.render
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v tests
   requires:
     - pip
+    - pytest
+    - pexpect
 
 about:
   home: https://github.com/magmax/python-inquirer
@@ -42,7 +49,7 @@ about:
   license_file: LICENSE
   summary: Collection of common interactive command line user interfaces, based on Inquirer.js
   description: Collection of common interactive command line user interfaces, based on Inquirer.js.
-  doc_url: https://python-inquirer.readthedocs.io/
+  doc_url: https://python-inquirer.readthedocs.io
   dev_url: https://github.com/magmax/python-inquirer
 
 extra:
